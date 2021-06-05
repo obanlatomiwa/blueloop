@@ -11,6 +11,7 @@ class Account(models.Model):
     first_name = models.CharField(max_length=256)
     last_name = models.CharField(max_length=256)
     username = models.CharField(max_length=256, unique=True)
+    slug = models.SlugField(unique=True, default='')
     phone_number = models.CharField(max_length=80, unique=True,
                                     validators=[
                                         RegexValidator('^\+\d{1,3}\d{3,}$', 'Make sure you add valid a phone number. '
@@ -23,6 +24,7 @@ class Account(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
+        ordering = ['created']
         verbose_name = 'account'
         verbose_name_plural = 'accounts'
 
@@ -43,14 +45,13 @@ class Post(models.Model):
     title = models.CharField(max_length=120)
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to=scramble_uploaded_image, default='', blank=False)
-    height_field = models.IntegerField(default=0)
-    width_field = models.IntegerField(default=0)
     content = models.TextField()
     draft = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
+        ordering = ['created']
         verbose_name = 'post'
         verbose_name_plural = 'posts'
 
@@ -74,6 +75,7 @@ class Comment(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
+        ordering = ['created']
         verbose_name = 'comment'
         verbose_name_plural = 'comments'
 

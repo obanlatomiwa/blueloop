@@ -6,16 +6,17 @@ from .models import Account, Post, Comment
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = '__all__'
+        fields = ('id', 'first_name', 'last_name', 'username', 'phone_number',
+                  'email', 'gender', 'date_of_birth')
 
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = ('id', 'user', 'title', 'image', 'content', 'draft')
 
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ('id', 'user', 'post', 'content',)
