@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    restart: always
+    command: manage.py runserver 0.0.0.0:8085
+    volumes:
+      - ./:/usr/src/app/
+    ports:
+      - 8085:8085
+    env_file:
+      - ./.env.dev
+    container_name: Blog

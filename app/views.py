@@ -15,6 +15,7 @@ class AccountViewSet(viewsets.ModelViewSet):
     """
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -23,6 +24,7 @@ class PostViewSet(viewsets.ModelViewSet):
     """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -31,3 +33,5 @@ class CommentViewSet(viewsets.ModelViewSet):
     """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    permission_classes = [permissions.AllowAny]
+
