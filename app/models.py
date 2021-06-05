@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
+from app.choices import GENDER_CHOICE
 
 
 # Create your models here.
@@ -36,3 +37,4 @@ class State(models.Model):
 
     def __str__(self):
         return self.name
+
