@@ -109,3 +109,4 @@ class NewsTestCase(TestCase):
         self.assertEquals(response.status_code, 201, "successful")
         self.assertEquals(comment.content, self.test_content)
 
+
