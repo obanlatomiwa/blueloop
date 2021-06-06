@@ -4,21 +4,20 @@ import requests
 from django.http import HttpResponse
 
 
-def get_news():
-        print(os.environ.get('NEWS_API_KEY'))
-        payload = {
-            'access_key': os.environ.get('NEWS_API_KEY'),
-            'categories': 'technology, business',
-            'languages': 'en',
-            'sort': 'published_desc',
-            'limit': 20,
-        }
+def get_news(request):
+    headers = {
+        'Content-Type': 'application/json'
+    }
 
-        url = 'https://api.mediastack.com/v1/news'
+    payload = {
+        'access_key': os.environ.get('NEWS_API_KEY'),
+        'categories': 'technology, business',
+        'languages': 'en',
+        'sort': 'published_desc',
+        'limit': 20,
+    }
 
-        data = requests.get(url, params=payload)
-        print(data.url)
-        return HttpResponse(data.json())
-
-
+    url = 'http://api.mediastack.com/v1/news'
+    data = requests.get(url, headers=headers, params=payload)
+    return HttpResponse(data, content_type="application/json")
 
