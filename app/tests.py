@@ -98,15 +98,15 @@ class CommentTestCase(TestCase):
         self.assertEquals(comment.user, self.test_user)
         self.assertEquals(comment.post, self.test_post)
 
-
-class NewsTestCase(TestCase):
-    def setUp(self):
-        self.test_client = Client()
-        self.test_content = 'content'
-
-    def test_get_news(self):
-        response = self.client.post('/news/', data=self.comment_data)
-        self.assertEquals(response.status_code, 201, "successful")
-        self.assertEquals(comment.content, self.test_content)
+#
+# class NewsTestCase(TestCase):
+#     def setUp(self):
+#         self.test_client = Client()
+#         self.test_content = 'content'
+#
+#     def test_get_news(self):
+#         response = self.client.post('/news/', data=self.comment_data)
+#         self.assertEquals(response.status_code, 201, "successful")
+#         self.assertEquals(comment.content, self.test_content)
 
 
