@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  web:
+    build: .
+    restart: always
+    command: manage.py runserver 0.0.0.0:8085
+    volumes:
+      - ./:/usr/src/app/
+    ports:
+      - 8085:8085
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+    container_name: Blog
