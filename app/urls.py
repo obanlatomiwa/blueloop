@@ -15,10 +15,5 @@ router.register(r'comment', CommentViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('news/', get_news, name='news'),
-    # path('business/', BusinessListView.as_view(), name='business-info'),
-    # path('business/<int:pk>/', BusinessDetailView.as_view(), name='business-data'),
-    # path('orders/products/business/<int:pk>', BusinessOrderDetailView.as_view()),
-    # path('user/business/<int:pk>', BusinessUserDetailView.as_view()),
-    # path('business/bank/<int:pk>', BusinessBankDetailView.as_view()),
 
 ]

@@ -1,8 +1,13 @@
-from django.test import TestCase, Client
+from django.test import TestCase, Client, RequestFactory
+from unittest.mock import patch, Mock
 from django.conf import settings
+from django.urls import reverse
 import os
+# import json
 from .models import Account, Post, Comment
 from datetime import datetime, date
+from .newsAPI import get_news
+from .helper import scramble_uploaded_image, unique_slug_generator
 
 
 # Create your tests here.
@@ -42,6 +47,10 @@ class AccountTestCase(TestCase):
         self.assertEquals(account.gender, self.test_gender)
         self.assertEquals(account.date_of_birth, self.test_date_of_birth)
 
+    def test_get_account(self):
+        response = self.client.get('/account/')
+        self.assertEquals(response.status_code, 200, "successful")
+
 
 class PostTestCase(TestCase):
     def setUp(self):
@@ -72,6 +81,10 @@ class PostTestCase(TestCase):
         self.assertEquals(post.draft, self.test_draft)
         self.assertEquals(post.user, self.test_user)
 
+    def test_get_post(self):
+        response = self.client.get('/post/')
+        self.assertEquals(response.status_code, 200, "successful")
+
 
 class CommentTestCase(TestCase):
     def setUp(self):
@@ -98,15 +111,64 @@ class CommentTestCase(TestCase):
         self.assertEquals(comment.user, self.test_user)
         self.assertEquals(comment.post, self.test_post)
 
-#
-# class NewsTestCase(TestCase):
-#     def setUp(self):
-#         self.test_client = Client()
-#         self.test_content = 'content'
-#
-#     def test_get_news(self):
-#         response = self.client.post('/news/', data=self.comment_data)
-#         self.assertEquals(response.status_code, 201, "successful")
-#         self.assertEquals(comment.content, self.test_content)
+    def test_get_comment(self):
+        response = self.client.get('/comment/')
+        self.assertEquals(response.status_code, 200, "successful")
 
 
+class HelperTestCase(TestCase):
+    def setUp(self):
+        self.test_image_name = 'blueloop.png'
+
+    def test_image_name_generation(self):
+        result = scramble_uploaded_image(self, self.test_image_name)
+        self.assertNotEquals(result.split('.')[0], 'blueloop')
+
+
+class NewsTestCase(TestCase):
+    def setUp(self):
+        self.status_code = 200
+
+    @patch("requests.get")
+    def test_get_news(self, mocked):
+        mock_response = Mock()
+        result = {
+            "pagination": {
+                "limit": 20,
+                "offset": 0,
+                "count": 1,
+                "total": 10
+            },
+            "data": [
+                {
+                    "author": "zee business",
+                    "title": "Gold Price Outlook – Know how US job numbers to impact price movement on Monday – "
+                             "Experts give trading, investment strategy",
+                    "description": "Gold Price Outlook – Gold traded in a rangebound manner over this week. The MCX "
+                                   "Gold Futures traded between Rs 48,500 and Rs 49,500 with an overall dip of 1 per "
+                                   "cent during the week. Over the last three months, yellow metal has appreciated by "
+                                   "almost 10 per cent. Will the trend continue over the next week too or is there a "
+                                   "likelihood of a one-way movement?",
+                    "url": "https://www.zeebiz.com/personal-finance-news/news-gold-price-outlook-know-how-us-job"
+                           "-numbers-to-impact-price-movement-on-monday-experts-give-trading-investment-strategy"
+                           "-158066",
+                    "source": "Zee Business",
+                    "image": None,
+                    "category": "business",
+                    "language": "en",
+                    "country": "us",
+                    "published_at": "2021-06-06T10:37:47+00:00"
+                },
+            ]
+        }
+
+        # Define response data for my Mock object
+        mock_response.result = result
+        mock_response.status_code = 200
+
+        # Define response for the fake API
+        mocked.return_value = mock_response
+
+        # Call the function
+        self.assertEquals(get_news(mock_response).status_code, 200, "success")
+        self.assertEquals(get_news(mock_response).headers['Content-Type'], 'application/json')

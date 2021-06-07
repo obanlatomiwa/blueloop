@@ -18,6 +18,7 @@ def get_news(request):
     }
 
     url = 'http://api.mediastack.com/v1/news'
+
     data = requests.get(url, headers=headers, params=payload)
     return HttpResponse(data, content_type="application/json")
 
