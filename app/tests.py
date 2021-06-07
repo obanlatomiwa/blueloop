@@ -128,35 +128,6 @@ class HelperTestCase(TestCase):
 class NewsTestCase(TestCase):
     def setUp(self):
         self.status_code = 200
-        self.test_json = {
-            "pagination": {
-                "limit": 20,
-                "offset": 0,
-                "count": 1,
-                "total": 10
-            },
-            "data": [
-                {
-                    "author": "zee business",
-                    "title": "Gold Price Outlook – Know how US job numbers to impact price movement on Monday – "
-                             "Experts give trading, investment strategy",
-                    "description": "Gold Price Outlook – Gold traded in a rangebound manner over this week. The MCX "
-                                   "Gold Futures traded between Rs 48,500 and Rs 49,500 with an overall dip of 1 per "
-                                   "cent during the week. Over the last three months, yellow metal has appreciated by "
-                                   "almost 10 per cent. Will the trend continue over the next week too or is there a "
-                                   "likelihood of a one-way movement?",
-                    "url": "https://www.zeebiz.com/personal-finance-news/news-gold-price-outlook-know-how-us-job"
-                           "-numbers-to-impact-price-movement-on-monday-experts-give-trading-investment-strategy"
-                           "-158066",
-                    "source": "Zee Business",
-                    "image": None,
-                    "category": "business",
-                    "language": "en",
-                    "country": "us",
-                    "published_at": "2021-06-06T10:37:47+00:00"
-                },
-            ]
-        }
 
     @patch("requests.get")
     def test_get_news(self, mocked):
