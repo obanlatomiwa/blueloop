@@ -1,9 +1,7 @@
-*/venv/*
-.venv/
 .env
 db.sqlite3
 .idea
 media
-/.venv/
 /.idea/
+.venv
 
