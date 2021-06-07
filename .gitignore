@@ -3,5 +3,7 @@ db.sqlite3
 .idea
 media
 /.idea/
-.venv
+.venv/
+*/.venv/*
+
 
